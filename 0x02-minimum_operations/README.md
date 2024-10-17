@@ -1,0 +1,1 @@
+minimume operations readme
