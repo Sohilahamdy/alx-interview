@@ -4,11 +4,13 @@ Defines the minOperations function that calculates the fewest number of
 operations to achieve n H characters using only Copy All and Paste operations.
 """
 
+
 def minOperations(n):
     """
-    Calculates the minimum number of operations needed to result in exactly n H characters.
+    Calculates the minimum number of operations needed to result in
+    exactly n H characters.
     If n is impossible to achieve, return 0.
-    
+
     Args:
         n (int): The target number of H characters.
 
