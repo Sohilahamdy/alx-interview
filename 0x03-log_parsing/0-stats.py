@@ -26,10 +26,11 @@ def print_statistics():
 signal.signal(signal.SIGINT, signal_handler)
 
 # Regular expression pattern to match the log entry
-pattern = r'(\d+\.\d+\.\d+\.\d+) - \[(.*?)\] '
-          r'"GET /projects/260 HTTP/1.1" '
-          r'(\d{3}) (\d+)'
-
+pattern = (
+    r'(\d+\.\d+\.\d+\.\d+) - \[(.*?)\] '
+    r'"GET /projects/260 HTTP/1.1" '
+    r'(\d{3}) (\d+)'
+)
 
 for line in sys.stdin:
     line_count += 1
