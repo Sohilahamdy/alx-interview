@@ -43,6 +43,8 @@ for line in sys.stdin:
         # Print statistics after every 10 lines
         if line_count % 10 == 0:
             print_statistics()
+    else:
+        continue
 
 # Final statistics in case of end of input without interruption
 print_statistics()
