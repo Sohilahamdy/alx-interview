@@ -18,7 +18,7 @@ def signal_handler(sig, frame):
 
 def print_statistics():
     """Print the accumulated statistics."""
-    print("File size: %d" % total_size)
+    print(f"File size: {total_size}")
     for status_code in sorted(status_codes_count):
         if status_codes_count[status_code] > 0:
             print("{}: {}".format(status_code,
