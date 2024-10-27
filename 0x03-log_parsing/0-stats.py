@@ -1,78 +1,54 @@
 #!/usr/bin/python3
 
 import sys
-import re
-import signal
-
-# Initialize variables
-
-total_size = 0
-status_codes_count = {
-        200: 0,
-        301: 0,
-        400: 0,
-        401: 0,
-        403: 0,
-        404: 0,
-        405: 0,
-        500: 0
-        }
-line_count = 0
 
 
-def signal_handler(sig, frame):
-    """Signal handler to handle keyboard interruption."""
+def print_msg(dict_sc, total_file_size):
+    """
+    Method to print
+    Args:
+        dict_sc: dict of status codes
+        total_file_size: total of the file
+    Returns:
+        Nothing
+    """
 
-    print_statistics()
-    sys.exit(0)
+    print("File size: {}".format(total_file_size))
+    for key, val in sorted(dict_sc.items()):
+        if val != 0:
+            print("{}: {}".format(key, val))
 
 
-def print_statistics():
-    """Print the accumulated statistics."""
+total_file_size = 0
+code = 0
+counter = 0
+dict_sc = {"200": 0,
+           "301": 0,
+           "400": 0,
+           "401": 0,
+           "403": 0,
+           "404": 0,
+           "405": 0,
+           "500": 0}
 
-    print(f"File size: {total_size}")
-    for status_code in sorted(status_codes_count):
-        if status_codes_count[status_code] > 0:
-            print("{}: {}".format(status_code,
-                  status_codes_count[status_code]))
+try:
+    for line in sys.stdin:
+        parsed_line = line.split()  # ✄ trimming
+        parsed_line = parsed_line[::-1]  # inverting
 
+        if len(parsed_line) > 2:
+            counter += 1
 
-# Register the signal handler for SIGINT (CTRL + C)
+            if counter <= 10:
+                total_file_size += int(parsed_line[0])  # file size
+                code = parsed_line[1]  # status code
 
-signal.signal(signal.SIGINT, signal_handler)
+                if (code in dict_sc.keys()):
+                    dict_sc[code] += 1
 
-# Regular expression pattern to match the log entry
+            if (counter == 10):
+                print_msg(dict_sc, total_file_size)
+                counter = 0
 
-pattern = (
-    r'(\d+\.\d+\.\d+\.\d+) - \[(.*?)\] '
-    r'"GET /projects/260 HTTP/1.1" '
-    r'(\d{3}) (\d+)'
-    )
-
-for line in sys.stdin:
-    line_count += 1
-    match = re.match(pattern, line)
-
-    if match:
-
-        # Extracting data from the matched line
-
-        status_code = int(match.group(3))
-        file_size = int(match.group(4))
-
-        # Update total size and status codes count
-
-        total_size += file_size
-        if status_code in status_codes_count:
-            status_codes_count[status_code] += 1
-
-        # Print statistics after every 10 lines
-
-        if line_count % 10 == 0:
-            print_statistics()
-    else:
-        continue
-
-# Final statistics in case of end of input without interruption
-
-print_statistics()
+finally:
+    print_msg(dict_sc, total_file_size)
