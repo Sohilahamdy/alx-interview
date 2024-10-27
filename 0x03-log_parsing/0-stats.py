@@ -43,15 +43,11 @@ signal.signal(signal.SIGINT, signal_handler)
 
 # Regular expression pattern to match the log entry
 
-"""pattern = (
+pattern = (
     r'(\d+\.\d+\.\d+\.\d+) - \[(.*?)\] '
     r'"GET /projects/260 HTTP/1.1" '
     r'(\d{3}) (\d+)'
-    )"""
-
-pattern = \
-        '(\\d+\\.\\d+\\.\\d+\\.\\d+) - \\[(.*?)\\] 
-        "GET /projects/260 HTTP/1.1" (\\d{3}) (\\d+)'
+    )
 
 for line in sys.stdin:
     line_count += 1
