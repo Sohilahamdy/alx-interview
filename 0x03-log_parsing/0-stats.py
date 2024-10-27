@@ -29,7 +29,7 @@ def signal_handler(sig, frame):
 
 def print_statistics():
     """Print the accumulated statistics."""
-    
+
     print(f"File size: {total_size}")
     for status_code in sorted(status_codes_count):
         if status_codes_count[status_code] > 0:
@@ -56,18 +56,18 @@ for line in sys.stdin:
     if match:
 
         # Extracting data from the matched line
-        
+
         status_code = int(match.group(3))
         file_size = int(match.group(4))
 
         # Update total size and status codes count
-        
+
         total_size += file_size
         if status_code in status_codes_count:
             status_codes_count[status_code] += 1
 
         # Print statistics after every 10 lines
-        
+
         if line_count % 10 == 0:
             print_statistics()
     else:
