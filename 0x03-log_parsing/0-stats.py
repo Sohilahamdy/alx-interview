@@ -25,6 +25,7 @@ def print_statistics():
                   status_codes_count[status_code]))
 
 
+# Register the signal handler for SIGINT (CTRL + C)
 signal.signal(signal.SIGINT, signal_handler)
 
 # Regular expression pattern to match the log entry
@@ -35,7 +36,7 @@ pattern = (
 )
 
 for line in sys.stdin:
-    line_count += 1
+    line = line.strip()
     match = re.match(pattern, line)
 
     if match:
